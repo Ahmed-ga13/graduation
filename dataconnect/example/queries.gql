@@ -1,0 +1,53 @@
+query ListAccounts @auth(level: USER, insecureReason: "This operation is safe to expose to all logged in users.") {
+  accounts(where: { userId: { eq_expr: "auth.uid" } }) {
+    id
+    name
+    type
+    initialBalance
+    currentBalance
+  }
+}
+
+mutation CreateTransaction($amount: Float!, $type: String!, $date: Date!, $description: String, $notes: String, $accountId: UUID!, $categoryId: UUID!) @auth(level: USER) {
+  transaction_insert(
+    data: {
+      amount: $amount,
+      type: $type,
+      date: $date,
+      description: $description,
+      notes: $notes,
+      accountId: $accountId,
+      categoryId: $categoryId,
+      userId_expr: "auth.uid",
+      createdAt_expr: "request.time"
+    }
+  ) {
+    id
+  }
+}
+
+query ListBudgetsForUser @auth(level: USER, insecureReason: "This operation is safe to expose to all logged in users.") {
+  budgets(where: { userId: { eq_expr: "auth.uid" } }) {
+    id
+    amount
+    period
+    startDate
+    endDate
+    alertThreshold
+    category {
+      name
+    }
+  }
+}
+
+mutation UpdateCategory($id: UUID!, $name: String, $description: String) @auth(level: USER) {
+  category_update(
+    key: { id: $id },
+    data: {
+      name: $name,
+      description: $description
+    }
+  ) {
+    id
+  }
+}

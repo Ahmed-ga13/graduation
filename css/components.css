@@ -1,0 +1,376 @@
+/* ==========================================================
+   components.css — Shared UI Components
+   Smart Spend | Used on: Dashboard, Reports, Expense List, Account
+   Includes: Page Layout, Cards, Charts, Modals, Budget Alert
+   ========================================================== */
+
+/* ── Page Background ── */
+body {
+    background-color: var(--bg-page);
+}
+
+/* ── Main Content Area ── */
+.dashboard-main {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ── Grid Rows ── */
+.grid-row {
+    display: grid;
+    gap: 24px;
+}
+
+.grid-row.top    { grid-template-columns: 1fr 1fr; }
+.grid-row.middle { grid-template-columns: 1fr 1fr; }
+.grid-row.bottom { grid-template-columns: 1fr 2fr; }
+
+/* ── Card ── */
+.card {
+    background-color: var(--bg-white);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+}
+
+/* ── Card Header ── */
+.top-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.card-title {
+    font-size: 16px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+/* ── Amount Display ── */
+.amount {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.amount.green { color: var(--primary); }
+.amount.black { color: var(--text-main); }
+
+/* ── Card Icon (used in Reports summary cards) ── */
+.card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* ── Card Footer ── */
+.card-footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+/* ── Shared Badge ── */
+.badge-red {
+    background-color: #fee2e2;
+    color: #dc2626;
+    padding: 4px 8px;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 12px;
+}
+
+/* ── Budget Progress (shared: dashboard + account) ── */
+.budget-used-text {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.budget-percentage {
+    float: right;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-top: -24px;
+}
+
+.progress-track {
+    height: 8px;
+    background-color: var(--border-subtle);
+    border-radius: 4px;
+    margin: 12px 0;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #f59e0b;
+    border-radius: 4px;
+    width: 71.5%;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.budget-remaining {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* ── Chart Section ── */
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.chart-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.dropdown {
+    padding: 6px 12px;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    color: var(--text-secondary);
+    background-color: var(--bg-white);
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.view-all {
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.chart-container {
+    position: relative;
+    height: 250px;
+    width: 100%;
+}
+
+/* ── Modal Overlay ── */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ── Modal Card ── */
+.modal-card {
+    background-color: var(--bg-white);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: var(--shadow-lg);
+    transform: translateY(20px) scale(0.95);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-overlay.active .modal-card {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+/* ── Modal Icon ── */
+.modal-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 16px;
+}
+
+.modal-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.modal-icon.red   { background-color: #fee2e2; color: #ef4444; }
+.modal-icon.green { background-color: var(--primary-light); color: #10b981; }
+
+/* ── Modal Content ── */
+.modal-title {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 8px;
+}
+
+.modal-text {
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* ── Modal Buttons ── */
+.btn-modal {
+    flex: 1;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.2s;
+}
+
+.btn-modal:hover { opacity: 0.9; }
+
+.btn-modal-cancel { background-color: #f3f4f6; color: #4b5563; }
+.btn-modal-delete { background-color: #ef4444; color: white; }
+.btn-modal-save   { background-color: var(--primary); color: white; }
+
+/* ── Modal Input ── */
+.modal-input {
+    width: 100%;
+    height: 44px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    padding: 0 16px;
+    font-size: 16px;
+    margin-bottom: 24px;
+    outline: none;
+    color: var(--text-main);
+    font-family: inherit;
+}
+
+.modal-input:focus {
+    border-color: var(--primary);
+}
+
+/* Hide number input spinners */
+.modal-input[type="number"]::-webkit-inner-spin-button,
+.modal-input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.modal-input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* ── Quick Add Button (Dashboard) ── */
+.btn-quick-add {
+    background-color: var(--primary-light);
+    color: var(--primary);
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.btn-quick-add svg {
+    width: 20px;
+    height: 20px;
+}
+
+.btn-quick-add:hover {
+    background-color: var(--primary);
+    color: white;
+    transform: scale(1.05);
+}
+
+/* ── Budget Alert Banner ── */
+.budget-alert {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #fee2e2;
+    color: #b91c1c;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    animation: fadeIn 0.3s ease;
+}
+
+.budget-alert svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+    .grid-row.bottom {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-main {
+        padding: 16px;
+    }
+
+    .grid-row.top,
+    .grid-row.middle {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        padding: 16px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .modal-card {
+        width: 90%;
+        padding: 24px;
+    }
+}

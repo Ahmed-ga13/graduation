@@ -1,0 +1,91 @@
+mutation CreateDemoData @transaction @auth(level: USER, insecureReason: "This is seed data and should only be run by an authenticated user.") {
+  user_insertMany(data: [
+    {
+      id: "b2c1b2c1-b2c1-b2c1-b2c1-b2c1b2c1b2c1",
+      username: "userone",
+      email: "userone@example.com",
+      createdAt: "2023-01-01T12:00:00Z"
+    },
+    {
+      id: "c3d2c3d2-c3d2-c3d2-c3d2-c3d2c3d2c3d2",
+      username: "usertwo",
+      email: "usertwo@example.com",
+      createdAt: "2023-01-02T13:00:00Z"
+    }
+  ])
+  account_insertMany(data: [
+    {
+      id: "a1b2a1b2-a1b2-a1b2-a1b2-a1b2a1b2a1b2",
+      name: "Checking Account",
+      type: "Bank",
+      initialBalance: 1000.00,
+      createdAt: "2023-01-01T12:05:00Z",
+      userId: "b2c1b2c1-b2c1-b2c1-b2c1-b2c1b2c1b2c1"
+    },
+    {
+      id: "d4e3d4e3-d4e3-d4e3-d4e3-d4e3d4e3d4e3",
+      name: "Savings Account",
+      type: "Bank",
+      initialBalance: 5000.00,
+      createdAt: "2023-01-02T13:10:00Z",
+      userId: "b2c1b2c1-b2c1-b2c1-b2c1-b2c1b2c1b2c1"
+    },
+    {
+      id: "f5g4f5g4-f5g4-f5g4-f5g4-f5g4f5g4f5g4",
+      name: "Credit Card",
+      type: "Credit",
+      initialBalance: -500.00,
+      createdAt: "2023-01-03T14:15:00Z",
+      userId: "c3d2c3d2-c3d2-c3d2-c3d2-c3d2c3d2c3d2"
+    }
+  ])
+  category_insertMany(data: [
+    {
+      id: "x7y6x7y6-x7y6-x7y6-x7y6-x7y6x7y6x7y6",
+      name: "Groceries",
+      type: "Expense",
+      createdAt: "2023-01-01T12:10:00Z",
+      userId: "b2c1b2c1-b2c1-b2c1-b2c1-b2c1b2c1b2c1"
+    },
+    {
+      id: "z8a7z8a7-z8a7-z8a7-z8a7-z8a7z8a7z8a7",
+      name: "Salary",
+      type: "Income",
+      createdAt: "2023-01-02T13:20:00Z",
+      userId: "b2c1b2c1-b2c1-b2c1-b2c1-b2c1b2c1b2c1"
+    }
+  ])
+  transaction_insertMany(data: [
+    {
+      amount: 50.00,
+      type: "Expense",
+      date: "2023-01-05",
+      createdAt: "2023-01-05T10:00:00Z",
+      description: "Weekly groceries",
+      userId: "b2c1b2c1-b2c1-b2c1-b2c1-b2c1b2c1b2c1",
+      accountId: "a1b2a1b2-a1b2-a1b2-a1b2-a1b2a1b2a1b2",
+      categoryId: "x7y6x7y6-x7y6-x7y6-x7y6-x7y6x7y6x7y6"
+    },
+    {
+      amount: 2000.00,
+      type: "Income",
+      date: "2023-01-15",
+      createdAt: "2023-01-15T09:00:00Z",
+      description: "Monthly salary",
+      userId: "b2c1b2c1-b2c1-b2c1-b2c1-b2c1b2c1b2c1",
+      accountId: "a1b2a1b2-a1b2-a1b2-a1b2-a1b2a1b2a1b2",
+      categoryId: "z8a7z8a7-z8a7-z8a7-z8a7-z8a7z8a7z8a7"
+    }
+  ])
+  budget_insertMany(data: [
+    {
+      amount: 200.00,
+      period: "Monthly",
+      startDate: "2023-01-01",
+      createdAt: "2023-01-01T12:30:00Z",
+      alertThreshold: 0.8,
+      userId: "b2c1b2c1-b2c1-b2c1-b2c1-b2c1b2c1b2c1",
+      categoryId: "x7y6x7y6-x7y6-x7y6-x7y6-x7y6x7y6x7y6"
+    }
+  ])
+}

@@ -1,0 +1,277 @@
+/* ==========================================================
+   reports.css — Reports Page Specific Styles
+   Smart Spend | Used on: reports.html
+   ========================================================== */
+
+/* ── Reports Header ── */
+.reports-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.reports-title-col h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0 0 8px 0;
+}
+
+.reports-title-col p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* ── Time Period Filter ── */
+.reports-filter {
+    display: flex;
+    align-items: center;
+    background: var(--bg-white);
+    padding: 8px 8px 8px 16px;
+    border-radius: var(--radius-md);
+    gap: 12px;
+    box-shadow: var(--shadow-sm);
+}
+
+.reports-filter span {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.reports-filter .text-green {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.btn-apply {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: var(--radius-full);
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.btn-apply:hover {
+    opacity: 0.9;
+}
+
+/* ── Three Column Grid (Summary Cards) ── */
+.grid-row.three-cols {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* ── Summary Card Adjustments ── */
+.summary-card .card-title {
+    margin-bottom: 0;
+}
+
+.summary-card .amount {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+/* ── Card Icon Color Variants ── */
+.bg-orange-light { background-color: #ffedd5; color: #f59e0b; }
+.bg-green-light  { background-color: #dcfce7; color: #10b981; }
+.text-orange     { color: #f59e0b; }
+
+/* ── Colored Badges ── */
+.badge-green-light {
+    background-color: #d1fae5;
+    color: #059669;
+    padding: 4px 8px;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.badge-yellow-light {
+    background-color: #fef3c7;
+    color: #d97706;
+    padding: 4px 8px;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.badge-red-light {
+    background-color: #fee2e2;
+    color: #ef4444;
+    padding: 4px 8px;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.footer-text {
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+/* ── Financial Tip Banner ── */
+.financial-tip-banner {
+    background-color: var(--primary);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    color: white;
+}
+
+.tip-icon {
+    background-color: #f59e0b;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.tip-icon svg {
+    color: white;
+    width: 20px;
+    height: 20px;
+}
+
+.tip-content h4 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.tip-content p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #e6f0eb;
+}
+
+.tip-content p .text-orange {
+    color: #f59e0b;
+    font-weight: 600;
+}
+
+/* ── Responsive ── */
+/* ── AI Insights Card ── */
+.ai-insights-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+    padding: 24px;
+}
+
+.ai-insights-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, transparent 70%);
+    z-index: 0;
+}
+
+.ai-status {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    background-color: #f1f5f9;
+    color: #64748b;
+}
+
+.ai-content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.ai-insight-block h5 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0 0 12px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ai-insight-block p, .ai-insight-block ul {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+.ai-insight-block ul {
+    list-style-type: none;
+}
+
+.ai-insight-block ul li {
+    margin-bottom: 8px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.ai-insight-block ul li::before {
+    content: '•';
+    color: var(--primary);
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+.spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 992px) {
+    .ai-content-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+@media (max-width: 768px) {
+    .reports-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .reports-filter {
+        width: 100%;
+        justify-content: space-between;
+        box-sizing: border-box;
+    }
+
+    .grid-row.three-cols {
+        grid-template-columns: 1fr;
+    }
+}

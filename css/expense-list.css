@@ -1,0 +1,370 @@
+/* ==========================================================
+   expense-list.css — Expense List Page Specific Styles
+   Smart Spend | Used on: expense-list.html
+   ========================================================== */
+
+/* ── Page Header ── */
+.expense-list-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.expense-list-header .page-title {
+    margin-bottom: 0;
+}
+
+/* ── Page Title (shared with account) ── */
+.page-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 24px;
+    display: inline-block;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.page-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--primary);
+}
+
+/* ── Expense Count Badge ── */
+.badge-count {
+    background-color: #d1fae5;
+    color: #059669;
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* ── Search & Sort Row ── */
+.search-filter-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.search-wrapper {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-wrapper svg {
+    position: absolute;
+    left: 16px;
+    color: var(--text-muted);
+    width: 20px;
+    height: 20px;
+}
+
+.search-input {
+    width: 100%;
+    height: 48px;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding-left: 48px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    background-color: var(--bg-white);
+    box-shadow: var(--shadow-xs);
+    transition: border-color 0.2s;
+}
+
+.search-input:focus {
+    border-color: var(--primary);
+}
+
+/* ── Sort Dropdown Wrapper ── */
+.sort-dropdown-wrapper {
+    position: relative;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.btn-sort {
+    appearance: none;
+    padding: 0 36px 0 16px;
+    cursor: pointer;
+    height: 100%;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    background-color: var(--bg-white);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: #4b5563;
+    min-width: 140px;
+}
+
+.sort-dropdown-wrapper .sort-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+    color: #4b5563;
+}
+
+/* ── Expense Table Card ── */
+.expense-table-card {
+    background-color: var(--bg-white);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+/* ── Expense Table ── */
+.expense-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.expense-table thead {
+    background-color: var(--primary);
+}
+
+.expense-table th {
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 16px 24px;
+    text-align: left;
+}
+
+.expense-table td {
+    padding: 16px 24px;
+    border-bottom: 1px solid #f3f4f6;
+    vertical-align: middle;
+}
+
+.expense-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* ── Date Cell ── */
+.date-cell {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.date-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #f0fdf4;
+    color: var(--primary);
+    border-radius: var(--radius-sm);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.date-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.date-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.date-main {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-main);
+}
+
+.date-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* ── Amount Cell ── */
+.amt-cell {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text-main);
+}
+
+/* ── Payment Cell ── */
+.payment-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.payment-cell svg {
+    height: 16px;
+    width: auto;
+}
+
+/* ── Action Buttons ── */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-action {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: var(--radius-sm);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.btn-action:hover {
+    opacity: 0.8;
+}
+
+.btn-edit   { background-color: #f0fdf4; color: #10b981; }
+.btn-delete { background-color: #fff7ed; color: #f59e0b; }
+
+/* ── Category Badges with Icon ── */
+.badge-cat-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge-cat-icon svg {
+    width: 14px;
+    height: 14px;
+}
+
+.cat-dining       { background-color: #ffedd5; color: #f97316; }
+.cat-transport    { background-color: #d1fae5; color: #10b981; }
+.cat-shopping     { background-color: #f3e8ff; color: #a855f7; }
+.cat-coffee       { background-color: #fef3c7; color: #d97706; }
+.cat-groceries    { background-color: #dcfce7; color: #22c55e; }
+.cat-entertainment { background-color: #fee2e2; color: #ef4444; }
+.cat-fitness      { background-color: #e0e7ff; color: #3b82f6; }
+.cat-tech         { background-color: #e0e7ff; color: #6366f1; }
+
+/* ── Pagination ── */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 32px;
+}
+
+.page-item {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background-color: var(--bg-white);
+    cursor: pointer;
+    text-decoration: none;
+    transition: var(--transition-fast);
+}
+
+.page-item:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.page-item.active {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .search-filter-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-filter-row .search-wrapper {
+        min-width: 100%;
+    }
+
+    /* Table: hide Payment and Actions columns */
+    .expense-table-card {
+        overflow-x: hidden;
+    }
+
+    .expense-table {
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .expense-table th:nth-child(4),
+    .expense-table th:nth-child(5),
+    .expense-table td:nth-child(4),
+    .expense-table td:nth-child(5) {
+        display: none;
+    }
+
+    .expense-table th,
+    .expense-table td {
+        padding: 12px 10px;
+    }
+
+    .expense-table th:nth-child(1),
+    .expense-table td:nth-child(1) { width: 50%; }
+
+    .expense-table th:nth-child(2),
+    .expense-table td:nth-child(2) { width: 22%; }
+
+    .expense-table th:nth-child(3),
+    .expense-table td:nth-child(3) { width: 28%; }
+
+    .date-icon  { width: 32px; height: 32px; }
+    .date-cell  { gap: 8px; }
+    .date-main  { font-size: 12px; }
+    .date-sub   { font-size: 11px; }
+    .amt-cell   { font-size: 13px; }
+
+    .badge-cat-icon {
+        font-size: 11px;
+        padding: 4px 8px;
+        white-space: normal;
+        word-break: break-word;
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .badge-cat-icon svg {
+        width: 12px;
+        height: 12px;
+    }
+}

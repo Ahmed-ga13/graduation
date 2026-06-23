@@ -1,0 +1,63 @@
+{
+  "hosting": {
+    "site": "smart-spend-ab121-af296",
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "*.json",
+      "README.md",
+      "*.log"
+    ],
+    "cleanUrls": true,
+    "rewrites": [
+      {
+        "source": "/login",
+        "destination": "/login.html"
+      },
+      {
+        "source": "/register",
+        "destination": "/register.html"
+      },
+      {
+        "source": "/dashboard",
+        "destination": "/dashboard.html"
+      },
+      {
+        "source": "/account",
+        "destination": "/account.html"
+      },
+      {
+        "source": "/expenses",
+        "destination": "/expense-list.html"
+      },
+      {
+        "source": "/reports",
+        "destination": "/reports.html"
+      },
+      {
+        "source": "**",
+        "destination": "/login.html"
+      }
+    ]
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "disallowLegacyRuntimeConfig": true,
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
+    }
+  ],
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  }
+}

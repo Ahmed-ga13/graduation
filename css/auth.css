@@ -1,0 +1,266 @@
+/* ==========================================================
+   auth.css — Login & Register Page Styles
+   Smart Spend | Used on: login.html, register.html
+   ========================================================== */
+
+/* ── Page Background ── */
+body {
+    background-color: var(--bg-white);
+}
+
+/* ── Two-Column Layout ── */
+.auth-container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* ── Left Panel (Illustration) ── */
+.auth-left {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-auth-left);
+    padding: 40px;
+}
+
+.auth-left img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* ── Right Panel (Form) ── */
+.auth-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-white);
+    padding: 40px;
+}
+
+.auth-form-wrapper {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* ── Page Title ── */
+h1.auth-title {
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 32px;
+    color: var(--text-main);
+}
+
+/* ── Form Group ── */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--text-label);
+}
+
+/* ── Input with Icon Wrapper ── */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon-left {
+    position: absolute;
+    left: 14px;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.input-icon-left svg {
+    width: 16px;
+    height: 16px;
+}
+
+.input-icon-right {
+    position: absolute;
+    right: 14px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.input-icon-right svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ── Form Control ── */
+.form-control {
+    width: 100%;
+    height: 44px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    padding-left: 40px;
+    padding-right: 16px;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--text-main);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-control.has-right-icon {
+    padding-right: 40px;
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+}
+
+.form-control::placeholder {
+    color: #6b7280;
+    font-weight: 400;
+}
+
+/* ── Forgot Password ── */
+.forgot-password {
+    display: block;
+    font-size: 12px;
+    color: #4b5563;
+    margin-top: 10px;
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* ── Buttons ── */
+.btn {
+    width: 100%;
+    height: 46px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: inherit;
+    transition: var(--transition-fast);
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: #ffffff;
+    margin-top: 24px;
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+}
+
+/* ── Divider ── */
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 24px 0;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.divider span {
+    padding: 0 16px;
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+/* ── Google Button ── */
+.btn-google {
+    background-color: transparent;
+    color: var(--primary);
+    border: 1px solid var(--border-light);
+}
+
+.btn-google svg {
+    margin-right: 8px;
+}
+
+.btn-google:hover {
+    background-color: #f9fafb;
+}
+
+/* ── Switch Link (Login ↔ Register) ── */
+.auth-switch {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 13px;
+    color: var(--text-label);
+}
+
+.auth-switch a {
+    color: var(--primary);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.auth-switch a:hover {
+    text-decoration: underline;
+}
+
+/* ── Security Notice ── */
+.security-text {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 11px;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+}
+
+.security-text svg {
+    width: 10px;
+    height: 10px;
+    color: #d97706;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+    .auth-form-wrapper {
+        padding: 0 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .auth-container {
+        flex-direction: column;
+    }
+
+    .auth-left {
+        display: none;
+    }
+
+    .auth-right {
+        padding: 20px;
+    }
+}

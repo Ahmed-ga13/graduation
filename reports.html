@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Spend - Reports</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/reports.css">
+
+    <!-- Icons & Charts -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-functions-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-analytics-compat.js"></script>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <img src="assets/Group.png" alt="Smart Spend Logo">
+            <span>SMART SPEND</span>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation">
+            <i data-lucide="menu"></i>
+        </button>
+        <div class="nav-links">
+            <a href="dashboard.html">Home</a>
+            <a href="reports.html" class="active">Reports</a>
+            <a href="expense-list.html">Expense List</a>
+            <a href="account.html">Account</a>
+        </div>
+        <div class="nav-actions">
+            <a href="login.html"><button class="btn-login">Log In</button></a>
+            <a href="register.html"><button class="btn-register">Register</button></a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard-main reports-main">
+
+        <!-- Header -->
+        <div class="reports-header">
+            <div class="reports-title-col">
+                <h1>Reports</h1>
+                <p>Track your financial performance and spending patterns</p>
+            </div>
+            <div class="reports-filter">
+                <span>Time Period:</span>
+                <span class="text-green">Last 30 Days</span>
+                <button class="btn-apply">Apply</button>
+            </div>
+        </div>
+
+        <!-- Row 1: Summary Cards -->
+        <div class="grid-row three-cols">
+
+            <!-- Biggest Spending -->
+            <div class="card summary-card">
+                <div class="top-card-header">
+                    <div class="card-title">Biggest Spending</div>
+                    <div class="card-icon bg-orange-light text-orange">
+                        <i data-lucide="shopping-cart"></i>
+                    </div>
+                </div>
+                <div class="amount black">1,247</div>
+                <div class="card-footer">
+                    <span class="badge-red-light">+12% vs last month</span>
+                    <span class="footer-text">Food &amp; Dining</span>
+                </div>
+            </div>
+
+            <!-- Total Savings -->
+            <div class="card summary-card">
+                <div class="top-card-header">
+                    <div class="card-title">Total Savings</div>
+                    <div class="card-icon bg-green-light text-green">
+                        <i data-lucide="piggy-bank"></i>
+                    </div>
+                </div>
+                <div class="amount black">3,892</div>
+                <div class="card-footer">
+                    <span class="badge-green-light">+24% increase</span>
+                    <span class="footer-text">vs Last Month</span>
+                </div>
+            </div>
+
+            <!-- Daily Average -->
+            <div class="card summary-card">
+                <div class="top-card-header">
+                    <div class="card-title">Monthly Average</div>
+                    <div class="card-icon bg-orange-light text-orange">
+                        <i data-lucide="calendar"></i>
+                    </div>
+                </div>
+                <div class="amount black">127</div>
+                <div class="card-footer">
+                    <span class="badge-yellow-light">-5% vs target</span>
+                    <span class="footer-text">Per Month</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 2: Charts -->
+        <div class="grid-row middle">
+
+            <!-- Spending Trend -->
+            <div class="card">
+                <div class="chart-header">
+                    <div class="chart-title">Spending Trend</div>
+                    <select class="dropdown">
+                        <option>Last 6 Months</option>
+                    </select>
+                </div>
+                <div class="chart-container">
+                    <canvas id="lineChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Category Breakdown -->
+            <div class="card">
+                <div class="chart-header">
+                    <div class="chart-title">Category Breakdown</div>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                <div class="chart-container">
+                    <canvas id="doughnutChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Financial Tip Banner -->
+        <div class="financial-tip-banner" style="justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 16px; flex: 1; min-width: 250px;">
+                <div class="tip-icon"><i data-lucide="lightbulb"></i></div>
+                <div class="tip-content">
+                    <h4 id="tipTitle">Smart Financial Tip</h4>
+                    <p id="tipDescription">Analyzing your data for personalized tips...</p>
+                </div>
+            </div>
+            <button id="btnAnalyzeAI" style="background-color: #f59e0b; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; display: flex; align-items: center; cursor: pointer; transition: 0.2s;">
+                <i data-lucide="zap" style="width: 16px; margin-right: 8px;"></i> Generate AI Analysis
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/firebase-config.js?v=2"></script>
+    <script src="js/auth.js?v=2"></script>
+    <script src="js/navbar.js?v=2"></script>
+    <script src="js/charts.js?v=2"></script>
+    <script src="js/reports.js?v=2"></script>
+    <script>
+        lucide.createIcons();
+        initSpendingTrendChart('lineChart');
+        initCategoryBreakdownChart('doughnutChart');
+    </script>
+</body>
+
+</html>

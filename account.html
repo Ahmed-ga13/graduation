@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Spend - Account</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/account.css">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-analytics-compat.js"></script>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <img src="assets/Group.png" alt="Smart Spend Logo">
+            <span>SMART SPEND</span>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation">
+            <i data-lucide="menu"></i>
+        </button>
+        <div class="nav-links">
+            <a href="dashboard.html">Home</a>
+            <a href="reports.html">Reports</a>
+            <a href="expense-list.html">Expense List</a>
+            <a href="account.html" class="active">Account</a>
+        </div>
+        <div class="nav-actions">
+            <a href="login.html"><button class="btn-login">Log In</button></a>
+            <a href="register.html"><button class="btn-register">Register</button></a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+
+        <h1 class="page-title">Account</h1>
+
+        <!-- Profile Card -->
+        <div class="card profile-card">
+            <div class="profile-info">
+                <div class="avatar-wrapper">
+                    <div class="default-avatar-icon"
+                        style=" width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background-color: var(--border-subtle);">
+                        <i data-lucide="user" style="width: 100%; height: 100%;"></i>
+                    </div>
+                    <div class="verified-badge-icon">
+                        <i data-lucide="check"></i>
+                    </div>
+                </div>
+                <div>
+                    <div class="profile-name" id="displayProfileName">Alex Johnson</div>
+                    <div class="profile-email" id="displayProfileEmail">alex.johnson@fintech.com</div>
+                    <div class="profile-status">
+                        <i data-lucide="shield-check"></i> Verified Account
+                    </div>
+                </div>
+            </div>
+            <button class="btn-logout">
+                <i data-lucide="log-out"></i> Logout
+            </button>
+        </div>
+
+        <!-- Personal Details -->
+        <div class="card">
+            <h2 class="card-title" style="margin-bottom:24px;font-size:18px;color:#111827;font-weight:700;">Personal
+                Details</h2>
+            <form action="#">
+                <div class="form-grid">
+
+                    <!-- Full Name -->
+                    <div class="form-group">
+                        <label for="accountName">Full Name</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon-left"><i data-lucide="user"></i></span>
+                            <input type="text" id="accountName" class="form-control" value="Alex Johnson">
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="accountEmail">Email Address</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon-left"><i data-lucide="mail"></i></span>
+                            <input type="email" id="accountEmail" class="form-control" value="alex.johnson@fintech.com">
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label for="accountPassword">Password</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon-left"><i data-lucide="lock"></i></span>
+                            <input type="password" id="accountPassword" class="form-control has-right-icon"
+                                placeholder="Enter new password">
+                            <span class="input-icon-right"><i data-lucide="eye"></i></span>
+                        </div>
+                    </div>
+
+                    <!-- Update Button -->
+                    <div class="form-group">
+                        <button type="button" class="btn-update">
+                            <i data-lucide="save"></i> Update Profile
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <!-- Row: Category Management & Monthly Budget -->
+        <div class="grid-row top">
+
+            <!-- Category Management -->
+            <div class="card">
+                <h2 class="card-title" style="margin-bottom:16px;font-size:18px;color:#111827;font-weight:700;">Category
+                    Management</h2>
+                <p style="font-size:14px;color:#374151;margin-bottom:16px;">Current Categories</p>
+                <div class="categories-container">
+                    <div class="cat-pill pill-green">Food &amp; Dining</div>
+                    <div class="cat-pill pill-blue">Transportation</div>
+                    <div class="cat-pill pill-purple">Entertainment</div>
+                    <div class="cat-pill pill-orange">Shopping</div>
+                    <div class="cat-pill pill-red">Healthcare</div>
+                    <div class="cat-pill pill-blue">Technology</div>
+                    <div class="cat-pill pill-green">Coffee</div>
+                </div>
+            </div>
+
+            <!-- Monthly Budget -->
+            <div class="card">
+                <h2 class="card-title" style="margin-bottom:16px;font-size:18px;color:#111827;font-weight:700;">Monthly
+                    Budget</h2>
+                <p style="font-size:14px;color:#374151;margin-bottom:8px;">Total Monthly Budget</p>
+
+                <input type="text" class="budget-input" id="budgetInput" value="2,500">
+
+                <div class="current-spending-container">
+                    <div class="budget-alert" id="budget-alert-msg" style="display:none;margin-bottom:16px;">
+                        <i data-lucide="alert-circle"></i>
+                        <span>You have reached your maximum budget limit!</span>
+                    </div>
+                    <div class="current-spending-label">Current Spending</div>
+                    <div class="current-spending-amount" id="spendingAmount">$1,847</div>
+                    <div class="budget-progress-track">
+                        <div class="budget-progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="budget-progress-text" id="progressText">74% of budget used</div>
+                </div>
+
+                <button type="button" class="btn-update" id="saveBudgetBtn" style="margin-top:24px;">
+                    <i data-lucide="save"></i> Save Budget
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/account.js?v=2"></script>
+    <script>lucide.createIcons();</script>
+</body>
+
+</html>

@@ -1,0 +1,189 @@
+/* ==========================================================
+   navbar.css — Navigation Bar + Mobile Hamburger Menu
+   Smart Spend | Used on: Dashboard, Reports, Expense List, Account
+   ========================================================== */
+
+/* ── Navbar Layout ── */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    height: 80px;
+    background-color: var(--bg-white);
+    box-shadow: var(--shadow-xs);
+}
+
+/* ── Brand / Logo ── */
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-brand svg {
+    width: 32px;
+    height: 32px;
+    color: var(--primary);
+}
+
+.nav-brand img {
+    height: 32px;
+    width: auto;
+}
+
+.nav-brand span {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* ── Navigation Links ── */
+.nav-links {
+    display: flex;
+    gap: 32px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-main);
+    font-weight: 600;
+    font-size: 14px;
+    position: relative;
+    padding: 8px 0;
+    transition: color 0.2s;
+}
+
+.nav-links a.active {
+    color: var(--primary);
+}
+
+.nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary);
+}
+
+/* ── Action Buttons ── */
+.nav-actions {
+    display: flex;
+    gap: 16px;
+}
+
+.nav-actions a {
+    text-decoration: none;
+}
+
+.btn-login {
+    border: 1px solid #f59e0b;
+    color: #f59e0b;
+    background: transparent;
+    padding: 8px 24px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.btn-login:hover {
+    background-color: #fffbeb;
+}
+
+.btn-register {
+    background-color: #f59e0b;
+    color: white;
+    border: none;
+    padding: 8px 24px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.btn-register:hover {
+    opacity: 0.9;
+}
+
+/* ── Mobile Hamburger Button ── */
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-main);
+    cursor: pointer;
+    padding: 8px;
+}
+
+.mobile-menu-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* ── Responsive: Mobile ── */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0 20px;
+        position: relative;
+        flex-wrap: wrap;
+    }
+
+    .nav-brand {
+        flex: 1;
+    }
+
+    .nav-brand span {
+        font-size: 16px;
+    }
+
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    .nav-links,
+    .nav-actions {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        text-align: center;
+    }
+
+    .navbar.open {
+        height: auto;
+        padding-bottom: 20px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        z-index: 50;
+    }
+
+    .navbar.open .nav-links,
+    .navbar.open .nav-actions {
+        display: flex;
+    }
+
+    .navbar.open .nav-links {
+        margin-top: 16px;
+        border-top: 1px solid #f3f4f6;
+        padding-top: 16px;
+    }
+
+    .navbar.open .nav-actions {
+        margin-top: 8px;
+    }
+
+    .btn-login,
+    .btn-register {
+        width: 100%;
+        justify-content: center;
+    }
+}

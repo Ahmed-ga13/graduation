@@ -1,0 +1,166 @@
+/* ==========================================================
+   dashboard.css — Dashboard Page Specific Styles
+   Smart Spend | Used on: dashboard.html
+   ========================================================== */
+
+/* ── Recent Transactions Table Wrapper ── */
+.table-responsive-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ── Transactions Table ── */
+.transactions-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.transactions-table th {
+    text-align: left;
+    padding-bottom: 16px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.transactions-table td {
+    padding: 16px 0;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.transactions-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* ── Transaction Row: Description ── */
+.tx-desc {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.tx-icon {
+    width: 32px;
+    height: 32px;
+    background-color: #e6f0eb;
+    color: var(--primary);
+    border-radius: var(--radius-sm);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.tx-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+.tx-amount {
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.tx-date {
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+/* ── Transaction Actions (Edit / Delete icons) ── */
+.tx-actions {
+    display: flex;
+    gap: 12px;
+    color: var(--text-muted);
+}
+
+.tx-actions svg {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.tx-actions svg:hover {
+    color: var(--text-main);
+}
+
+/* ── Category Badges ── */
+.badge-cat {
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.bg-dining       { background-color: #ffedd5; color: #f97316; }
+.bg-groceries    { background-color: #dcfce7; color: #22c55e; }
+.bg-transport    { background-color: #e0e7ff; color: #6366f1; }
+.bg-entertainment { background-color: #f3e8ff; color: #a855f7; }
+.bg-health       { background-color: #d1fae5; color: #10b981; }
+
+/* ── Illustration Card (Dashboard bottom-left) ── */
+.illustration-card {
+    padding: 32px;
+    border-radius: var(--radius-lg);
+    background: #125e3a; /* Dark green from screenshot */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    box-shadow: var(--shadow-sm);
+    color: white;
+    height: 100%;
+}
+
+.illustration-card img {
+    width: 100%;
+    max-height: 220px;
+    object-fit: contain;
+    margin-bottom: 24px;
+}
+
+.tip-content {
+    width: 100%;
+}
+
+.tip-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: white;
+}
+
+.tip-text {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+.tip-highlight {
+    color: #eab308; /* Sharper yellow like screenshot */
+    font-weight: 600;
+}
+
+/* ── Add Expense Modal Form Inputs ── */
+.add-expense-form .modal-input {
+    padding-left: 40px;
+    margin-bottom: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .transactions-table {
+        min-width: 600px;
+    }
+
+    .illustration-card img {
+        max-height: 200px;
+    }
+}
