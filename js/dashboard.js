@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ── State ── */
-    let monthlyBudget = 5000;
+    let monthlyBudget = 0;
     let currentUser   = null;
     let currentRowIdToDelete = null;
     let currentRowIdToEdit   = null;
@@ -112,7 +112,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function listenToUserBudget() {
         db.collection('users').doc(currentUser.uid).onSnapshot(doc => {
             if (doc.exists) {
-                monthlyBudget = Number(doc.data().budget) || 5000;
+                monthlyBudget = Number(doc.data().budget) || 0;
+                if (monthlyBudget === 0) {
+                    alert("من فضلك قم بإدخال راتبك الشهري في صفحة الحساب (Account) لتتمكن من متابعة مصاريفك بشكل صحيح.");
+                }
                 if (budgetEl) budgetEl.innerText = formatAmount(monthlyBudget);
                 updateBudgetUI(currentTotalSpending); // Re-calculate percentage
             } else {
@@ -120,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 db.collection('users').doc(currentUser.uid).set({
                     name: currentUser.displayName || 'User',
                     email: currentUser.email,
-                    budget: 5000,
+                    budget: 0,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
             }
@@ -241,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateBudgetUI(monthlySpending) {
         if (!spendingEl) return;
 
-        let percentage = (monthlySpending / monthlyBudget) * 100;
+        let percentage = monthlyBudget > 0 ? (monthlySpending / monthlyBudget) * 100 : 0;
         percentage = Math.min(Math.max(percentage, 0), 100);
 
         spendingEl.innerText    = formatAmount(monthlySpending);

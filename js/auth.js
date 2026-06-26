@@ -20,7 +20,7 @@ auth.onAuthStateChanged(async (user) => {
                     name: user.displayName || user.email.split('@')[0],
                     email: user.email,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    budget: 5000
+                    budget: 0
                 };
                 console.log(`[Firestore Write] ProjectId: ${firebaseConfig.projectId}`);
                 console.log(`[Firestore Write] currentUser.uid: ${user.uid}`);
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     name: name,
                     email: email,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    budget: 5000 
+                    budget: 0 
                 };
                 console.log(`[Firestore Write] ProjectId: ${firebaseConfig.projectId}`);
                 console.log(`[Firestore Write] currentUser.uid: ${user.uid}`);
@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     name: user.displayName,
                     email: user.email,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    budget: 5000
+                    budget: 0
                 };
                 console.log(`[Firestore Write] ProjectId: ${firebaseConfig.projectId}`);
                 console.log(`[Firestore Write] currentUser.uid: ${user.uid}`);

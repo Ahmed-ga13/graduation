@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,6 +22,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-analytics-compat.js"></script>
 </head>
+
 <body>
 
     <!-- Navbar -->
@@ -55,14 +57,14 @@
                 <div class="top-card-header">
                     <div>
                         <div class="card-title">Monthly Spending</div>
-                        <div class="amount green">4,287.50</div>
+                        <div class="amount green">...</div>
                     </div>
                     <button class="btn-quick-add" id="openAddExpenseBtn" aria-label="Add expense">
                         <i data-lucide="plus"></i>
                     </button>
                 </div>
                 <div class="card-footer">
-                    <span class="badge-red">+12.5%</span> vs last month
+                    <span class="badge-red">...</span>
                 </div>
             </div>
 
@@ -71,7 +73,7 @@
                 <div class="top-card-header">
                     <div>
                         <div class="card-title">Monthly Budget</div>
-                        <div class="amount black">6,000.00</div>
+                        <div class="amount black">...</div>
                     </div>
                 </div>
                 <div>
@@ -80,11 +82,11 @@
                         <span>You have reached your maximum budget limit!</span>
                     </div>
                     <div class="budget-used-text">Used</div>
-                    <div class="budget-percentage">71.5%</div>
+                    <div class="budget-percentage">...</div>
                     <div class="progress-track">
                         <div class="progress-fill"></div>
                     </div>
-                    <div class="budget-remaining">Remaining: 1,712.50</div>
+                    <div class="budget-remaining">...</div>
                 </div>
             </div>
         </div>
@@ -151,39 +153,76 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><div class="tx-desc"><div class="tx-icon"><i data-lucide="utensils"></i></div> Olive Garden Restaurant</div></td>
+                                <td>
+                                    <div class="tx-desc">
+                                        <div class="tx-icon"><i data-lucide="utensils"></i></div> Olive Garden
+                                        Restaurant
+                                    </div>
+                                </td>
                                 <td><span class="badge-cat bg-dining">Dining</span></td>
                                 <td class="tx-date">Nov 27, 2024</td>
                                 <td class="tx-amount">87.50</td>
-                                <td><div class="tx-actions"><i data-lucide="pencil"></i><i data-lucide="trash-2"></i></div></td>
+                                <td>
+                                    <div class="tx-actions"><i data-lucide="pencil"></i><i data-lucide="trash-2"></i>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
-                                <td><div class="tx-desc"><div class="tx-icon"><i data-lucide="shopping-cart"></i></div> Whole Foods Market</div></td>
+                                <td>
+                                    <div class="tx-desc">
+                                        <div class="tx-icon"><i data-lucide="shopping-cart"></i></div> Whole Foods
+                                        Market
+                                    </div>
+                                </td>
                                 <td><span class="badge-cat bg-groceries">Groceries</span></td>
                                 <td class="tx-date">Nov 27, 2024</td>
                                 <td class="tx-amount">59.00</td>
-                                <td><div class="tx-actions"><i data-lucide="pencil"></i><i data-lucide="trash-2"></i></div></td>
+                                <td>
+                                    <div class="tx-actions"><i data-lucide="pencil"></i><i data-lucide="trash-2"></i>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
-                                <td><div class="tx-desc"><div class="tx-icon"><i data-lucide="fuel"></i></div> Shell Gas Station</div></td>
+                                <td>
+                                    <div class="tx-desc">
+                                        <div class="tx-icon"><i data-lucide="fuel"></i></div> Shell Gas Station
+                                    </div>
+                                </td>
                                 <td><span class="badge-cat bg-transport">Transport</span></td>
                                 <td class="tx-date">Nov 26, 2024</td>
                                 <td class="tx-amount">120.50</td>
-                                <td><div class="tx-actions"><i data-lucide="pencil"></i><i data-lucide="trash-2"></i></div></td>
+                                <td>
+                                    <div class="tx-actions"><i data-lucide="pencil"></i><i data-lucide="trash-2"></i>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
-                                <td><div class="tx-desc"><div class="tx-icon"><i data-lucide="film"></i></div> Netflix Subscription</div></td>
+                                <td>
+                                    <div class="tx-desc">
+                                        <div class="tx-icon"><i data-lucide="film"></i></div> Netflix Subscription
+                                    </div>
+                                </td>
                                 <td><span class="badge-cat bg-entertainment">Entertainment</span></td>
                                 <td class="tx-date">Nov 25, 2024</td>
                                 <td class="tx-amount">80.00</td>
-                                <td><div class="tx-actions"><i data-lucide="pencil"></i><i data-lucide="trash-2"></i></div></td>
+                                <td>
+                                    <div class="tx-actions"><i data-lucide="pencil"></i><i data-lucide="trash-2"></i>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
-                                <td><div class="tx-desc"><div class="tx-icon"><i data-lucide="dumbbell"></i></div> Planet Fitness Gym</div></td>
+                                <td>
+                                    <div class="tx-desc">
+                                        <div class="tx-icon"><i data-lucide="dumbbell"></i></div> Planet Fitness Gym
+                                    </div>
+                                </td>
                                 <td><span class="badge-cat bg-health">Health</span></td>
                                 <td class="tx-date">Nov 24, 2024</td>
                                 <td class="tx-amount">817.50</td>
-                                <td><div class="tx-actions"><i data-lucide="pencil"></i><i data-lucide="trash-2"></i></div></td>
+                                <td>
+                                    <div class="tx-actions"><i data-lucide="pencil"></i><i data-lucide="trash-2"></i>
+                                    </div>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -198,7 +237,8 @@
         <div class="modal-card">
             <div class="modal-icon red"><i data-lucide="trash-2"></i></div>
             <div class="modal-title">Delete Transaction</div>
-            <div class="modal-text">Are you sure you want to delete this transaction? This action cannot be undone.</div>
+            <div class="modal-text">Are you sure you want to delete this transaction? This action cannot be undone.
+            </div>
             <div class="modal-actions">
                 <button class="btn-modal btn-modal-cancel" id="btnCancelDelete">Cancel</button>
                 <button class="btn-modal btn-modal-delete" id="btnConfirmDelete">Delete</button>
@@ -224,7 +264,8 @@
     <div class="modal-overlay" id="addExpenseModal">
         <div class="modal-card">
             <div class="modal-icon" style="background-color: #fef3c7; color: #f59e0b;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" style="width:24px;height:24px;">
                     <rect x="4" y="4" width="16" height="12" rx="2" ry="2"></rect>
                     <circle cx="12" cy="10" r="2"></circle>
                     <line x1="6" y1="19" x2="18" y2="19"></line>
@@ -237,19 +278,25 @@
 
                 <!-- Amount -->
                 <div class="form-group" style="margin-bottom: 16px;">
-                    <label style="display:block;font-size:14px;font-weight:500;color:#111827;margin-bottom:8px;">Amount</label>
+                    <label
+                        style="display:block;font-size:14px;font-weight:500;color:#111827;margin-bottom:8px;">Amount</label>
                     <div style="position:relative;">
-                        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#125e3a;"><i data-lucide="banknote" style="width:18px;height:18px;"></i></span>
-                        <input type="number" class="modal-input" id="newExpenseAmount" placeholder="Enter Amount" style="padding-left:40px;margin-bottom:0;">
+                        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#125e3a;"><i
+                                data-lucide="banknote" style="width:18px;height:18px;"></i></span>
+                        <input type="number" class="modal-input" id="newExpenseAmount" placeholder="Enter Amount"
+                            style="padding-left:40px;margin-bottom:0;">
                     </div>
                 </div>
 
                 <!-- Category -->
                 <div class="form-group" style="margin-bottom: 16px;">
-                    <label style="display:block;font-size:14px;font-weight:500;color:#111827;margin-bottom:8px;">Category</label>
+                    <label
+                        style="display:block;font-size:14px;font-weight:500;color:#111827;margin-bottom:8px;">Category</label>
                     <div style="position:relative;">
-                        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#125e3a;"><i data-lucide="layers" style="width:18px;height:18px;"></i></span>
-                        <select class="modal-input" id="newExpenseCategory" style="padding-left:40px;margin-bottom:0;appearance:none;cursor:pointer;">
+                        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#125e3a;"><i
+                                data-lucide="layers" style="width:18px;height:18px;"></i></span>
+                        <select class="modal-input" id="newExpenseCategory"
+                            style="padding-left:40px;margin-bottom:0;appearance:none;cursor:pointer;">
                             <option value="" disabled selected hidden>Select Category</option>
                             <option value="Food">Food</option>
                             <option value="Drink">Drink</option>
@@ -259,16 +306,21 @@
                             <option value="Health">Health</option>
                             <option value="Entertainment">Entertainment</option>
                         </select>
-                        <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#6b7280;pointer-events:none;"><i data-lucide="chevron-down" style="width:18px;height:18px;"></i></span>
+                        <span
+                            style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#6b7280;pointer-events:none;"><i
+                                data-lucide="chevron-down" style="width:18px;height:18px;"></i></span>
                     </div>
                 </div>
 
                 <!-- Date -->
                 <div class="form-group" style="margin-bottom: 24px;">
-                    <label style="display:block;font-size:14px;font-weight:500;color:#111827;margin-bottom:8px;">Date</label>
+                    <label
+                        style="display:block;font-size:14px;font-weight:500;color:#111827;margin-bottom:8px;">Date</label>
                     <div style="position:relative;">
-                        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#125e3a;"><i data-lucide="calendar" style="width:18px;height:18px;"></i></span>
-                        <input type="date" class="modal-input" id="newExpenseDate" style="padding-left:40px;margin-bottom:0;cursor:pointer;">
+                        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#125e3a;"><i
+                                data-lucide="calendar" style="width:18px;height:18px;"></i></span>
+                        <input type="date" class="modal-input" id="newExpenseDate"
+                            style="padding-left:40px;margin-bottom:0;cursor:pointer;">
                     </div>
                 </div>
 
@@ -292,4 +344,5 @@
         initCategoryBreakdownChart('doughnutChart');
     </script>
 </body>
+
 </html>

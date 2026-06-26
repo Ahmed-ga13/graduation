@@ -21,15 +21,9 @@
     gap: 12px;
 }
 
-.nav-brand svg {
-    width: 32px;
-    height: 32px;
-    color: var(--primary);
-}
-
 .nav-brand img {
-    height: 32px;
-    width: auto;
+    height: 56px;
+    width: 56px;
 }
 
 .nav-brand span {

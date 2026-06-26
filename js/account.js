@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ── State ── */
     let currentUser     = null;
     let currentSpending = 0;
-    let monthlyBudget   = 2500;
+    let monthlyBudget   = 0;
 
     /* ── Auth State Listener ── */
     auth.onAuthStateChanged(user => {
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         db.collection('users').doc(currentUser.uid).onSnapshot(doc => {
             if (doc.exists) {
                 const data = doc.data();
-                monthlyBudget = Number(data.budget) || 2500;
+                monthlyBudget = data.budget !== undefined ? Number(data.budget) : 0;
                 
                 const displayName = data.name || currentUser.displayName || 'User';
                 const displayEmail = data.email || currentUser.email || '';
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let budgetVal = parseFloat(String(budgetInput.value).replace(/,/g, ''));
         if (isNaN(budgetVal) || budgetVal <= 0) budgetVal = 1;
 
-        const percentage       = (currentSpending / budgetVal) * 100;
+        const percentage = budgetVal > 0 ? (currentSpending / budgetVal) * 100 : 0;
         const visualPercentage = Math.min(Math.max(percentage, 0), 100);
 
         if (progressText) progressText.innerText       = `${percentage.toFixed(1)}% of budget used`;
@@ -125,7 +125,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (saveBudgetBtn) {
         saveBudgetBtn.addEventListener('click', async () => {
             const newBudget = parseFloat(String(budgetInput.value).replace(/,/g, ''));
-            if (isNaN(newBudget)) return;
+            
+            if (isNaN(newBudget)) {
+                alert("من فضلك أدخل رقم صحيح.");
+                return;
+            }
+            
+            if (newBudget < 0) {
+                alert("عفواً، لا يمكن إدخال الراتب/الميزانية بالسالب. لم يتم حفظ التغييرات.");
+                return;
+            }
 
             try {
                 const dataToSet = { budget: newBudget };

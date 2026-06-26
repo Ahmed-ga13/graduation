@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* ── State ── */
     let currentUser = null;
-    let monthlyBudget = 5000;
+    let monthlyBudget = 0;
     let currentAIReport = null;
     let currentCategoryData = null;
     let currentMonthTotal = 0;
@@ -29,7 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // 1. Get Budget
         const userDoc = await db.collection('users').doc(currentUser.uid).get();
         if (userDoc.exists) {
-            monthlyBudget = Number(userDoc.data().budget) || 5000;
+            monthlyBudget = Number(userDoc.data().budget) || 0;
+            if (monthlyBudget === 0) {
+                alert("من فضلك قم بإدخال راتبك الشهري في صفحة الحساب (Account) لتتمكن من متابعة مصاريفك بشكل صحيح.");
+            }
         }
 
         // 2. Initial AI Check
