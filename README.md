@@ -188,6 +188,8 @@ python -m http.server 5500
 # Node.js (npx)
 npx serve .
 ```
+# Firebase CLI
+npx -y firebase-tools@latest emulators:start
 
 Then navigate to `http://localhost:5500/dashboard.html`
 
@@ -251,7 +253,8 @@ This project is open source and available under the [MIT License](LICENSE).
 ---
 
 <div align="center">
-  <p>Built with ❤️ — Smart Spend &copy; 2024</p>
+  <p>Built with ❤️ — Smart Spend &copy; 2026</p>
 </div>
-#   g r a d u a t i o n  
+#   g r a d u a t i o n 
+ 
  

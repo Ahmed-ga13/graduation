@@ -113,9 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
         db.collection('users').doc(currentUser.uid).onSnapshot(doc => {
             if (doc.exists) {
                 monthlyBudget = Number(doc.data().budget) || 0;
-                if (monthlyBudget === 0) {
-                    alert("من فضلك قم بإدخال راتبك الشهري في صفحة الحساب (Account) لتتمكن من متابعة مصاريفك بشكل صحيح.");
-                }
                 if (budgetEl) budgetEl.innerText = formatAmount(monthlyBudget);
                 updateBudgetUI(currentTotalSpending); // Re-calculate percentage
             } else {
@@ -162,7 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             currentMonthSpending += amt;
                             
                             // Aggregate categories only for the current month
-                            const rawCat = data.categoryId || data.category || 'Others';
+                            let rawCat = data.categoryId || data.category || 'Others';
+                            rawCat = rawCat.charAt(0).toUpperCase() + rawCat.slice(1).toLowerCase();
                             const cat = window.categoryMap && window.categoryMap[rawCat] ? window.categoryMap[rawCat] : rawCat;
                             if (categoryData[cat] !== undefined) {
                                 categoryData[cat] += amt;
@@ -296,11 +294,24 @@ document.addEventListener('DOMContentLoaded', () => {
         editModal.classList.add('active');
     };
 
+    const salaryWarningModal = document.getElementById('salaryWarningModal');
+    const btnCancelSalaryWarning = document.getElementById('btnCancelSalaryWarning');
+
+    if (btnCancelSalaryWarning) {
+        btnCancelSalaryWarning.onclick = () => {
+            salaryWarningModal.classList.remove('active');
+        };
+    }
+
     if (openAddExpenseBtn) {
         openAddExpenseBtn.onclick = () => {
-            newExpenseAmount.value = '';
-            newExpenseDate.value = new Date().toISOString().split('T')[0]; // Set today as default
-            addExpenseModal.classList.add('active');
+            if (monthlyBudget === 0) {
+                if (salaryWarningModal) salaryWarningModal.classList.add('active');
+            } else {
+                newExpenseAmount.value = '';
+                newExpenseDate.value = new Date().toISOString().split('T')[0]; // Set today as default
+                addExpenseModal.classList.add('active');
+            }
         };
     }
 
@@ -371,6 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
             deleteModal.classList.remove('active');
             editModal.classList.remove('active');
             addExpenseModal.classList.remove('active');
+            if (salaryWarningModal) salaryWarningModal.classList.remove('active');
         };
     });
 });

@@ -30,9 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const userDoc = await db.collection('users').doc(currentUser.uid).get();
         if (userDoc.exists) {
             monthlyBudget = Number(userDoc.data().budget) || 0;
-            if (monthlyBudget === 0) {
-                alert("من فضلك قم بإدخال راتبك الشهري في صفحة الحساب (Account) لتتمكن من متابعة مصاريفك بشكل صحيح.");
-            }
         }
 
         // 2. Initial AI Check
@@ -66,14 +63,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     const amt = Number(data.amount) || 0;
 
                     if (data.date) {
-                        const dateObj = data.date.toDate ? data.date.toDate() : new Date(data.date.seconds * 1000);
+                        const dateObj = data.date.toDate ? data.date.toDate() : (data.date.seconds ? new Date(data.date.seconds * 1000) : new Date(data.date));
                         const dMonth = dateObj.getMonth();
                         const dYear = dateObj.getFullYear();
                         
                         if (dYear === currentYear && dMonth === currentMonth) {
                             currentMonthTotal += amt;
                             currentMonthCount++;
-                            const rawCat = data.categoryId || data.category || 'Others';
+                            let rawCat = data.categoryId || data.category || 'Others';
+                            rawCat = rawCat.charAt(0).toUpperCase() + rawCat.slice(1).toLowerCase();
                             const cat = window.categoryMap && window.categoryMap[rawCat] ? window.categoryMap[rawCat] : rawCat;
                             if (categoryData[cat] !== undefined) {
                                 categoryData[cat] += amt;
@@ -82,7 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                         } else if ((dYear === currentYear && dMonth === currentMonth - 1) || (currentMonth === 0 && dYear === currentYear - 1 && dMonth === 11)) {
                             lastMonthSpending += amt;
-                            const rawCat = data.categoryId || data.category || 'Others';
+                            let rawCat = data.categoryId || data.category || 'Others';
+                            rawCat = rawCat.charAt(0).toUpperCase() + rawCat.slice(1).toLowerCase();
                             const cat = window.categoryMap && window.categoryMap[rawCat] ? window.categoryMap[rawCat] : rawCat;
                             if (lastMonthCategoryData[cat] !== undefined) {
                                 lastMonthCategoryData[cat] += amt;
@@ -301,6 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     bills: cats["Bills"] || 0,
                     health: cats["Health"] || 0,
                     entertainment: cats["Entertainment"] || 0,
+                    others: cats["Others"] || 0,
                 };
 
                 const response = await fetch("https://ahmed-m-final-project.hf.space/analyze", {

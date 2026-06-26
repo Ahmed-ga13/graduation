@@ -332,6 +332,24 @@
         </div>
     </div>
 
+    <!-- Modal: Salary Warning -->
+    <div class="modal-overlay" id="salaryWarningModal">
+        <div class="modal-card">
+            <div class="modal-icon" style="background-color: #fef2f2; color: #ef4444;">
+                <i data-lucide="alert-triangle"></i>
+            </div>
+            <div class="modal-title" style="color: #ef4444;">الراتب مطلوب</div>
+            <div class="modal-text">من فضلك قم بإدخال راتبك الشهري في صفحة الحساب (Account) لتتمكن من إضافة ومتابعة
+                مصاريفك بشكل صحيح.</div>
+            <div class="modal-actions" style="justify-content: center; margin-top: 20px;">
+                <button type="button" class="btn-modal btn-modal-cancel" id="btnCancelSalaryWarning">إغلاق</button>
+                <a href="account.html" class="btn-modal btn-modal-save"
+                    style="text-decoration: none; display: flex; justify-content: center; align-items: center; text-align: center; background-color: #125e3a; color: white;">الذهاب
+                    للحساب</a>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="js/firebase-config.js?v=2"></script>
     <script src="js/auth.js?v=2"></script>
