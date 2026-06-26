@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function listenToUserBudget() {
         db.collection('users').doc(currentUser.uid).onSnapshot(doc => {
             if (doc.exists) {
-                monthlyBudget = doc.data().budget || 5000;
+                monthlyBudget = Number(doc.data().budget) || 5000;
                 if (budgetEl) budgetEl.innerText = formatAmount(monthlyBudget);
                 updateBudgetUI(currentTotalSpending); // Re-calculate percentage
             } else {
@@ -159,7 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             currentMonthSpending += amt;
                             
                             // Aggregate categories only for the current month
-                            const cat = data.categoryId || 'Others';
+                            const rawCat = data.categoryId || data.category || 'Others';
+                            const cat = window.categoryMap && window.categoryMap[rawCat] ? window.categoryMap[rawCat] : rawCat;
                             if (categoryData[cat] !== undefined) {
                                 categoryData[cat] += amt;
                             } else {

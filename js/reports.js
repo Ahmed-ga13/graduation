@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentUser = null;
     let monthlyBudget = 5000;
     let currentAIReport = null;
+    let currentCategoryData = null;
+    let currentMonthTotal = 0;
 
     /* ── Auth State Listener ── */
     auth.onAuthStateChanged(user => {
@@ -27,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 1. Get Budget
         const userDoc = await db.collection('users').doc(currentUser.uid).get();
         if (userDoc.exists) {
-            monthlyBudget = userDoc.data().budget || 5000;
+            monthlyBudget = Number(userDoc.data().budget) || 5000;
         }
 
         // 2. Initial AI Check
@@ -36,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 3. Listen to Expenses
         db.collection('users').doc(currentUser.uid).collection('expenses')
             .onSnapshot(snapshot => {
-                let currentMonthSpending = 0;
+                currentMonthTotal = 0;
                 let lastMonthSpending = 0;
                 let currentMonthCount = 0;
                 
@@ -66,9 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         const dYear = dateObj.getFullYear();
                         
                         if (dYear === currentYear && dMonth === currentMonth) {
-                            currentMonthSpending += amt;
+                            currentMonthTotal += amt;
                             currentMonthCount++;
-                            const cat = data.categoryId || 'Others';
+                            const rawCat = data.categoryId || data.category || 'Others';
+                            const cat = window.categoryMap && window.categoryMap[rawCat] ? window.categoryMap[rawCat] : rawCat;
                             if (categoryData[cat] !== undefined) {
                                 categoryData[cat] += amt;
                             } else {
@@ -76,7 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                         } else if ((dYear === currentYear && dMonth === currentMonth - 1) || (currentMonth === 0 && dYear === currentYear - 1 && dMonth === 11)) {
                             lastMonthSpending += amt;
-                            const cat = data.categoryId || 'Others';
+                            const rawCat = data.categoryId || data.category || 'Others';
+                            const cat = window.categoryMap && window.categoryMap[rawCat] ? window.categoryMap[rawCat] : rawCat;
                             if (lastMonthCategoryData[cat] !== undefined) {
                                 lastMonthCategoryData[cat] += amt;
                             } else {
@@ -107,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 // 2. Total Savings
-                const currentSavings = Math.max(0, monthlyBudget - currentMonthSpending);
+                const currentSavings = Math.max(0, monthlyBudget - currentMonthTotal);
                 const lastSavings = Math.max(0, monthlyBudget - lastMonthSpending);
                 let savingsDiff = 0;
                 if (lastSavings === 0) {
@@ -118,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // 3. Daily Average
                 const daysPassed = now.getDate(); // current day of month
-                const dailyAvg = currentMonthSpending / daysPassed;
+                const dailyAvg = currentMonthTotal / daysPassed;
                 const targetDailyAvg = monthlyBudget / 30; // approx 30 days
                 let dailyAvgDiff = 0;
                 if (targetDailyAvg === 0) {
@@ -170,8 +174,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     window.updateChartsWithData(trendData.slice(0, 9), Object.values(categoryData));
                 }
 
+                currentCategoryData = categoryData;
+
                 // 6. Generate Smart Tip
-                generateSmartTip(currentMonthSpending, categoryData);
+                generateSmartTip(currentMonthTotal, categoryData);
                 
                 lucide.createIcons();
             });
@@ -233,13 +239,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
         
         try {
-            const aiDoc = await db.collection('users').doc(currentUser.uid)
-                                 .collection('ai_reports').doc(currentMonth).get();
-            
-            if (aiDoc.exists) {
-                currentAIReport = aiDoc.data();
-                displayAIResults(currentAIReport);
-            }
+            db.collection('users').doc(currentUser.uid)
+                                 .collection('ai_reports').doc(currentMonth)
+                                 .onSnapshot(aiDoc => {
+                if (aiDoc.exists) {
+                    currentAIReport = aiDoc.data();
+                    displayAIResults(currentAIReport);
+                    if (currentCategoryData !== null) {
+                        generateSmartTip(currentMonthTotal, currentCategoryData);
+                    }
+                }
+            });
             
             if (aiContainer) aiContainer.style.display = 'block';
         } catch (e) {
@@ -276,14 +286,39 @@ document.addEventListener('DOMContentLoaded', () => {
             if (aiStatus) aiStatus.innerText = "Processing...";
 
             try {
-                const functions = firebase.functions();
-                const analyzeFn = functions.httpsCallable('analyzeMonthlySpending');
-                const result = await analyzeFn({ month: currentMonth, force: true });
-                currentAIReport = result.data;
-                displayAIResults(currentAIReport);
+                const cats = currentCategoryData || {};
+                const apiBody = {
+                    user_id: currentUser.uid,
+                    month: currentMonth,
+                    salary: monthlyBudget,
+                    food: (cats["Food"] || 0) + (cats["Dining"] || 0),
+                    drink: cats["Drink"] || 0,
+                    shopping: cats["Shopping"] || 0,
+                    transport: cats["Transportation"] || 0,
+                    bills: cats["Bills"] || 0,
+                    health: cats["Health"] || 0,
+                    entertainment: cats["Entertainment"] || 0,
+                };
+
+                const response = await fetch("https://ahmed-m-final-project.hf.space/analyze", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(apiBody),
+                });
                 
-                // Also update the tip banner
-                loadData(); 
+                if (!response.ok) throw new Error("AI API failed");
+                const aiResult = await response.json();
+
+                const finalResult = {
+                    summary: `إجمالي المصروفات: $${aiResult.total_spend || 0}، المتبقي من الميزانية: $${aiResult.remaining || 0}.`,
+                    insights: [],
+                    recommendations: aiResult.recommendation ? [aiResult.recommendation] : [],
+                    analyzedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                };
+
+                await db.collection('users').doc(currentUser.uid).collection('ai_reports').doc(currentMonth).set(finalResult);
+                
+                // The onSnapshot listener will automatically call displayAIResults() and update the tip banner
             } catch (error) {
                 console.error("AI Analysis failed:", error);
                 alert("Failed to analyze spending: " + error.message);

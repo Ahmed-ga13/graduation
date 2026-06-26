@@ -41,7 +41,7 @@ export const analyzeMonthlySpending = onCall(async (request) => {
     let reportData: any = null;
     const reportDoc = await reportRef.get();
 
-    if (reportDoc.exists) {
+    if (!force && reportDoc.exists) {
         reportData = reportDoc.data();
     } else {
         // Generate aggregation on the fly
@@ -63,12 +63,27 @@ export const analyzeMonthlySpending = onCall(async (request) => {
             "Bills": 0, "Health": 0, "Entertainment": 0, "Others": 0,
         };
 
+        // Fetch categories to resolve UUIDs
+        const userCatDocs = await db.collection("users").doc(uid).collection("categories").get();
+        const globalCatDocs = await db.collection("categories").get();
+        const categoryMap: { [key: string]: string } = {};
+        
+        globalCatDocs.forEach(doc => { categoryMap[doc.id] = doc.data().name || doc.id; });
+        userCatDocs.forEach(doc => { categoryMap[doc.id] = doc.data().name || doc.id; });
+
         expensesSnapshot.forEach((doc) => {
             const data = doc.data();
             const amt = Number(data.amount) || 0;
             totalSpending += amt;
-            const cat = data.categoryId || "Others";
-            categories[cat] = (categories[cat] || 0) + amt;
+            
+            const rawCat = data.categoryId || data.category || "Others";
+            const catName = categoryMap[rawCat] ? categoryMap[rawCat] : rawCat;
+            
+            if (categories[catName] !== undefined) {
+                categories[catName] += amt;
+            } else {
+                categories["Others"] += amt;
+            }
         });
 
         reportData = {
