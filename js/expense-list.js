@@ -37,8 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function listenToExpenses() {
-        db.collection('expenses')
-            .where('userId', '==', currentUser.uid)
+        db.collection('users').doc(currentUser.uid).collection('expenses')
             .onSnapshot(snapshot => {
                 expenses = [];
                 snapshot.forEach(doc => {
@@ -62,11 +61,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Filter
         const term = searchQuery.toLowerCase();
-        let filtered = expenses.filter(ex =>
-            (ex.category && ex.category.toLowerCase().includes(term)) || 
+        let filtered = expenses.filter(ex => {
+            const cat = ex.categoryId || '';
+            const desc = ex.note || '';
+            return (cat.toLowerCase().includes(term)) || 
             String(ex.amount).includes(term) ||
-            (ex.description && ex.description.toLowerCase().includes(term))
-        );
+            (desc.toLowerCase().includes(term));
+        });
 
         // Sort
         filtered.sort((a, b) => {
@@ -101,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td class="amt-cell">$${Number(ex.amount || 0).toFixed(2)}</td>
                 <td>
                     <span class="badge-cat-icon">
-                        <i data-lucide="tag"></i> ${ex.category || 'General'}
+                        <i data-lucide="tag"></i> ${window.categoryMap && window.categoryMap[ex.categoryId] ? window.categoryMap[ex.categoryId] : (ex.categoryId || 'General')}
                     </span>
                 </td>
                 <td>
@@ -152,14 +153,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('btnConfirmDelete')?.addEventListener('click', async () => {
         try {
-            await db.collection('expenses').doc(itemToDeleteId).delete();
+            console.log(`[Firestore Write] ProjectId: ${firebaseConfig.projectId}`);
+            console.log(`[Firestore Write] currentUser.uid: ${currentUser.uid}`);
+            console.log(`[Firestore Write] Target Path: users/${currentUser.uid}/expenses/${itemToDeleteId}`);
+            console.log(`[Firestore Write] Document Data: <delete>`);
+            await db.collection('users').doc(currentUser.uid).collection('expenses').doc(itemToDeleteId).delete();
             deleteModal.classList.remove('active');
         } catch (e) { alert(e.message); }
     });
 
     document.getElementById('btnConfirmEdit')?.addEventListener('click', async () => {
         try {
-            await db.collection('expenses').doc(itemToEditId).update({ amount: parseFloat(editAmountInput.value) });
+            const dataToSet = { amount: parseFloat(editAmountInput.value) };
+            console.log(`[Firestore Write] ProjectId: ${firebaseConfig.projectId}`);
+            console.log(`[Firestore Write] currentUser.uid: ${currentUser.uid}`);
+            console.log(`[Firestore Write] Target Path: users/${currentUser.uid}/expenses/${itemToEditId}`);
+            console.log(`[Firestore Write] Document Data:`, dataToSet);
+            await db.collection('users').doc(currentUser.uid).collection('expenses').doc(itemToEditId).update(dataToSet);
             editModal.classList.remove('active');
         } catch (e) { alert(e.message); }
     });

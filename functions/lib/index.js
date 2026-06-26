@@ -78,8 +78,7 @@ exports.analyzeMonthlySpending = (0, https_1.onCall)(async (request) => {
         const [year, m] = month.split("-").map(Number);
         const startDate = new Date(year, m - 1, 1);
         const endDate = new Date(year, m, 0, 23, 59, 59);
-        const expensesSnapshot = await db.collection("expenses")
-            .where("userId", "==", uid)
+        const expensesSnapshot = await db.collection("users").doc(uid).collection("expenses")
             .where("date", ">=", startDate)
             .where("date", "<=", endDate)
             .get();
@@ -92,14 +91,14 @@ exports.analyzeMonthlySpending = (0, https_1.onCall)(async (request) => {
             const data = doc.data();
             const amt = Number(data.amount) || 0;
             totalSpending += amt;
-            const cat = data.category || "Others";
+            const cat = data.categoryId || "Others";
             categories[cat] = (categories[cat] || 0) + amt;
         });
         reportData = {
             totalSpending,
             categories,
             month,
-            userId: uid,
+            uid: uid,
             generatedAt: admin.firestore.FieldValue.serverTimestamp(),
         };
         // Save aggregated report

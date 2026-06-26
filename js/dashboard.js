@@ -23,6 +23,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const newExpenseCategory = document.getElementById('newExpenseCategory');
     const newExpenseDate     = document.getElementById('newExpenseDate');
     const openAddExpenseBtn = document.getElementById('openAddExpenseBtn');
+    
+    window.populateCategoryDropdown = () => {
+        if (!newExpenseCategory) return;
+        const currentVal = newExpenseCategory.value;
+        newExpenseCategory.innerHTML = '<option value="" disabled selected hidden>Select Category</option>';
+        if (window.categoryMap && Object.keys(window.categoryMap).length > 0) {
+            for (const [id, name] of Object.entries(window.categoryMap)) {
+                newExpenseCategory.innerHTML += `<option value="${id}">${name}</option>`;
+            }
+        } else {
+            // Fallbacks if no categories fetched yet
+            ['Food', 'Drink', 'Shopping', 'Transportation', 'Bills', 'Health', 'Entertainment'].forEach(c => {
+                newExpenseCategory.innerHTML += `<option value="${c}">${c}</option>`;
+            });
+        }
+        if (currentVal) newExpenseCategory.value = currentVal;
+    };
+    if (window.categoryMap) window.populateCategoryDropdown();
 
     /* ── Helpers ── */
     const formatAmount = (num) => Number(num || 0).toLocaleString(undefined, {
@@ -110,8 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function listenToExpenses() {
-        db.collection('expenses')
-            .where('userId', '==', currentUser.uid)
+        db.collection('users').doc(currentUser.uid).collection('expenses')
             .onSnapshot(snapshot => {
                 let currentMonthSpending = 0;
                 let lastMonthSpending = 0;
@@ -142,8 +159,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             currentMonthSpending += amt;
                             
                             // Aggregate categories only for the current month
-                            if (categoryData[data.category] !== undefined) {
-                                categoryData[data.category] += amt;
+                            const cat = data.categoryId || 'Others';
+                            if (categoryData[cat] !== undefined) {
+                                categoryData[cat] += amt;
                             } else {
                                 categoryData['Others'] += amt;
                             }
@@ -245,10 +263,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const dateObj = data.date?.toDate ? data.date.toDate() : new Date(data.date || Date.now());
         const dateStr = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
         
+        const catName = window.categoryMap && window.categoryMap[data.categoryId] ? window.categoryMap[data.categoryId] : (data.categoryId || 'General');
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td><div class="tx-desc"><div class="tx-icon"><i data-lucide="banknote"></i></div> ${data.description || 'Expense'}</div></td>
-            <td><span class="badge-cat" style="background-color:#f3f4f6;color:#4b5563;">${data.category}</span></td>
+            <td><div class="tx-desc"><div class="tx-icon"><i data-lucide="banknote"></i></div> ${data.note || 'Expense'}</div></td>
+            <td><span class="badge-cat" style="background-color:#f3f4f6;color:#4b5563;">${catName}</span></td>
             <td class="tx-date">${dateStr}</td>
             <td class="tx-amount">${formatAmount(data.amount)}</td>
             <td>
@@ -290,23 +309,41 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!dateStr) return alert("Please select a date");
 
         try {
-            await db.collection('expenses').add({
-                userId: currentUser.uid,
+            const expensesRef = db.collection('users').doc(currentUser.uid).collection('expenses');
+            const newDocRef = expensesRef.doc();
+            
+            const expenseData = {
+                id: newDocRef.id,
+                uid: currentUser.uid,
                 amount: amount,
-                category: category,
-                description: category + " expense",
-                date: firebase.firestore.Timestamp.fromDate(new Date(dateStr))
-            });
+                categoryId: category,
+                date: firebase.firestore.Timestamp.fromDate(new Date(dateStr)),
+                note: category + " expense",
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            console.log(`[Firestore Write] ProjectId: ${firebaseConfig.projectId}`);
+            console.log(`[Firestore Write] currentUser.uid: ${currentUser.uid}`);
+            console.log(`[Firestore Write] Target Path: users/${currentUser.uid}/expenses/${newDocRef.id}`);
+            console.log(`[Firestore Write] Document Data:`, expenseData);
+
+            await newDocRef.set(expenseData);
+            
             addExpenseModal.classList.remove('active');
         } catch (e) { 
+            console.error(`[Firestore Error] Failed path: users/${currentUser.uid}/expenses/`);
             console.error(e);
-            alert("Error: " + e.message); 
+            alert("Error: " + e.message + "\nPath: users/" + currentUser.uid + "/expenses/"); 
         }
     });
 
     document.getElementById('btnConfirmDelete')?.addEventListener('click', async () => {
         try {
-            await db.collection('expenses').doc(currentRowIdToDelete).delete();
+            console.log(`[Firestore Write] ProjectId: ${firebaseConfig.projectId}`);
+            console.log(`[Firestore Write] currentUser.uid: ${currentUser.uid}`);
+            console.log(`[Firestore Write] Target Path: users/${currentUser.uid}/expenses/${currentRowIdToDelete}`);
+            console.log(`[Firestore Write] Document Data: <delete>`);
+            await db.collection('users').doc(currentUser.uid).collection('expenses').doc(currentRowIdToDelete).delete();
             deleteModal.classList.remove('active');
         } catch (e) { alert(e.message); }
     });
@@ -314,7 +351,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btnConfirmEdit')?.addEventListener('click', async () => {
         const newAmt = parseFloat(editAmountInput.value);
         try {
-            await db.collection('expenses').doc(currentRowIdToEdit).update({ amount: newAmt });
+            const dataToSet = { amount: newAmt };
+            console.log(`[Firestore Write] ProjectId: ${firebaseConfig.projectId}`);
+            console.log(`[Firestore Write] currentUser.uid: ${currentUser.uid}`);
+            console.log(`[Firestore Write] Target Path: users/${currentUser.uid}/expenses/${currentRowIdToEdit}`);
+            console.log(`[Firestore Write] Document Data:`, dataToSet);
+            await db.collection('users').doc(currentUser.uid).collection('expenses').doc(currentRowIdToEdit).update(dataToSet);
             editModal.classList.remove('active');
         } catch (e) { alert(e.message); }
     });

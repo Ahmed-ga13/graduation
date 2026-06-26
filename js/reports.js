@@ -34,8 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         await checkExistingAnalysis();
 
         // 3. Listen to Expenses
-        db.collection('expenses')
-            .where('userId', '==', currentUser.uid)
+        db.collection('users').doc(currentUser.uid).collection('expenses')
             .onSnapshot(snapshot => {
                 let currentMonthSpending = 0;
                 let lastMonthSpending = 0;
@@ -69,15 +68,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (dYear === currentYear && dMonth === currentMonth) {
                             currentMonthSpending += amt;
                             currentMonthCount++;
-                            if (categoryData[data.category] !== undefined) {
-                                categoryData[data.category] += amt;
+                            const cat = data.categoryId || 'Others';
+                            if (categoryData[cat] !== undefined) {
+                                categoryData[cat] += amt;
                             } else {
                                 categoryData['Others'] += amt;
                             }
                         } else if ((dYear === currentYear && dMonth === currentMonth - 1) || (currentMonth === 0 && dYear === currentYear - 1 && dMonth === 11)) {
                             lastMonthSpending += amt;
-                            if (lastMonthCategoryData[data.category] !== undefined) {
-                                lastMonthCategoryData[data.category] += amt;
+                            const cat = data.categoryId || 'Others';
+                            if (lastMonthCategoryData[cat] !== undefined) {
+                                lastMonthCategoryData[cat] += amt;
                             } else {
                                 lastMonthCategoryData['Others'] += amt;
                             }
@@ -138,7 +139,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         bsBadge.style.color = biggestSpendingDiff > 0 ? '#ef4444' : '#10b981';
                         bsBadge.style.backgroundColor = biggestSpendingDiff > 0 ? '#fee2e2' : '#dcfce7';
                     }
-                    if (bsCat) bsCat.innerText = topCat;
+                    if (bsCat) {
+                        const catName = window.categoryMap && window.categoryMap[topCat] ? window.categoryMap[topCat] : topCat;
+                        bsCat.innerText = catName;
+                    }
 
                     // Total Savings
                     summaryAmounts[1].innerText = '$' + currentSavings.toLocaleString(undefined, { maximumFractionDigits: 0 });
@@ -197,14 +201,15 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const percentage = ((topAmt / total) * 100).toFixed(0);
+        const percentage = ((topAmt / total) * 100);
         
-        if (total > monthlyBudget) {
-            tipText.innerHTML = `Warning: You are <span class="text-orange">over budget</span> by $${(total - monthlyBudget).toLocaleString()}. Try reducing your <strong>${topCat}</strong> spending which accounts for ${percentage}% of your total.`;
-        } else if (percentage > 50) {
-            tipText.innerHTML = `Your <strong>${topCat}</strong> spending is quite high (${percentage}% of total). Consider finding cheaper alternatives to save more this month.`;
+        const topCatName = window.categoryMap && window.categoryMap[topCat] ? window.categoryMap[topCat] : topCat;
+        if (percentage > 50) {
+            tipText.innerHTML = `You spent <span class="tip-highlight">$${topAmt.toLocaleString()}</span> on ${topCatName} this month, which is <span class="tip-highlight">${percentage.toFixed(0)}%</span> of your total spending. Consider reviewing this to increase your savings.`;
+        } else if (total > monthlyBudget) {
+            tipText.innerHTML = `Your total spending of <span class="tip-highlight">$${total.toLocaleString()}</span> has exceeded your monthly budget. Try to cut back on ${topCatName}.`;
         } else {
-            tipText.innerHTML = `Great job! Your spending is well distributed. You've saved <span class="text-orange">$${(monthlyBudget - total).toLocaleString()}</span> so far. Keep it up!`;
+            tipText.innerHTML = `Great job! Your spending is well diversified. Your biggest expense was ${topCatName} at <span class="tip-highlight">$${topAmt.toLocaleString()}</span>. Keep it up!`;
         }
     }
 

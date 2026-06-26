@@ -16,14 +16,30 @@ auth.onAuthStateChanged(async (user) => {
             const userRef = db.collection('users').doc(user.uid);
             const doc = await userRef.get();
             if (!doc.exists) {
-                await userRef.set({
+                const dataToSet = {
                     name: user.displayName || user.email.split('@')[0],
                     email: user.email,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                     budget: 5000
-                }, { merge: true });
+                };
+                console.log(`[Firestore Write] ProjectId: ${firebaseConfig.projectId}`);
+                console.log(`[Firestore Write] currentUser.uid: ${user.uid}`);
+                console.log(`[Firestore Write] Target Path: users/${user.uid}`);
+                console.log(`[Firestore Write] Document Data:`, dataToSet);
+                await userRef.set(dataToSet, { merge: true });
             }
         } catch (e) { console.error("Error syncing user doc:", e); }
+        
+        // Initialize global category map
+        window.categoryMap = {};
+        db.collection('users').doc(user.uid).collection('categories').onSnapshot(snap => {
+            snap.forEach(c => window.categoryMap[c.id] = c.data().name || c.id);
+            if (window.populateCategoryDropdown) window.populateCategoryDropdown();
+        });
+        db.collection('categories').onSnapshot(snap => {
+            snap.forEach(c => window.categoryMap[c.id] = c.data().name || c.id);
+            if (window.populateCategoryDropdown) window.populateCategoryDropdown();
+        });
 
         updateNavbarForUser(user);
 
@@ -93,12 +109,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 await user.updateProfile({ displayName: name });
 
                 // Initialize user data in Firestore
-                await db.collection('users').doc(user.uid).set({
+                const dataToSet = {
                     name: name,
                     email: email,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                     budget: 5000 
-                });
+                };
+                console.log(`[Firestore Write] ProjectId: ${firebaseConfig.projectId}`);
+                console.log(`[Firestore Write] currentUser.uid: ${user.uid}`);
+                console.log(`[Firestore Write] Target Path: users/${user.uid}`);
+                console.log(`[Firestore Write] Document Data:`, dataToSet);
+                await db.collection('users').doc(user.uid).set(dataToSet);
 
                 window.location.href = 'dashboard.html';
             } catch (error) {
@@ -149,12 +170,17 @@ document.addEventListener('DOMContentLoaded', () => {
             // Check if user exists in Firestore, if not create
             const userDoc = await db.collection('users').doc(user.uid).get();
             if (!userDoc.exists) {
-                await db.collection('users').doc(user.uid).set({
+                const dataToSet = {
                     name: user.displayName,
                     email: user.email,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                     budget: 5000
-                });
+                };
+                console.log(`[Firestore Write] ProjectId: ${firebaseConfig.projectId}`);
+                console.log(`[Firestore Write] currentUser.uid: ${user.uid}`);
+                console.log(`[Firestore Write] Target Path: users/${user.uid}`);
+                console.log(`[Firestore Write] Document Data:`, dataToSet);
+                await db.collection('users').doc(user.uid).set(dataToSet);
             }
             window.location.href = 'dashboard.html';
         } catch (error) {

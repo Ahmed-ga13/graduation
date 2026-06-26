@@ -19,3 +19,10 @@ if (!firebase.apps.length) {
 var auth = firebase.auth();
 var db = firebase.firestore();
 var analytics = firebase.analytics ? firebase.analytics() : null;
+
+// Use emulator if running locally
+// if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+//     console.log("Using Firebase Emulators");
+//     db.useEmulator("127.0.0.1", 8080);
+//     auth.useEmulator("http://127.0.0.1:9099");
+// }

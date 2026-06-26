@@ -67,8 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* ── Calculate Total Spending ── */
     function calculateSpending() {
-        db.collection('expenses')
-            .where('userId', '==', currentUser.uid)
+        db.collection('users').doc(currentUser.uid).collection('expenses')
             .onSnapshot(snapshot => {
                 const now = new Date();
                 const currentMonthStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
@@ -129,9 +128,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isNaN(newBudget)) return;
 
             try {
-                await db.collection('users').doc(currentUser.uid).set({
-                    budget: newBudget
-                }, { merge: true });
+                const dataToSet = { budget: newBudget };
+                console.log(`[Firestore Write] ProjectId: ${firebaseConfig.projectId}`);
+                console.log(`[Firestore Write] currentUser.uid: ${currentUser.uid}`);
+                console.log(`[Firestore Write] Target Path: users/${currentUser.uid}`);
+                console.log(`[Firestore Write] Document Data:`, dataToSet);
+                await db.collection('users').doc(currentUser.uid).set(dataToSet, { merge: true });
                 showSuccess(saveBudgetBtn);
             } catch (error) { 
                 console.error(error); 
@@ -148,7 +150,12 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 // Update Name
                 if (newName) {
-                    await db.collection('users').doc(currentUser.uid).set({ name: newName }, { merge: true });
+                    const dataToSet = { name: newName };
+                    console.log(`[Firestore Write] ProjectId: ${firebaseConfig.projectId}`);
+                    console.log(`[Firestore Write] currentUser.uid: ${currentUser.uid}`);
+                    console.log(`[Firestore Write] Target Path: users/${currentUser.uid}`);
+                    console.log(`[Firestore Write] Document Data:`, dataToSet);
+                    await db.collection('users').doc(currentUser.uid).set(dataToSet, { merge: true });
                     await currentUser.updateProfile({ displayName: newName });
                 }
 
